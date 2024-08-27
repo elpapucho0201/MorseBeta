@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivel Difícil - Código Morse</title>
+    <link rel="icon" href="https://img.freepik.com/vector-premium/icono-dificil-simbolo-complicado-vector_883533-119.jpg" type="image/x-icon">
+    <style>
+        /* Estilo general del juego */
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #1d1d1d;
+            color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        /* Estilo de la cabecera */
+        h1 {
+            margin-top: 20px;
+            color: #e94560;
+            font-size: 32px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        /* Contenedor del juego */
+        .game-container {
+            background-color: #2b2b2b;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Estilo de la letra mostrada */
+        .letter {
+            font-size: 56px;
+            font-weight: bold;
+            color: #e94560;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo de los botones y los inputs */
+        input, button {
+            margin: 10px;
+            padding: 12px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input {
+            width: 80%;
+            background-color: #444;
+            color: #fff;
+        }
+
+        button {
+            background-color: #e94560;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff5a77;
+        }
+
+        /* Enlace para regresar al menú */
+        a {
+            display: inline-block;
+            margin: 20px 0;
+            text-decoration: none;
+            color: #3498db;
+            font-size: 16px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo del botón de música */
+        #musicButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: #e94560;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #musicButton:hover {
+            color: #ff5a77;
+        }
+
+        /* Estilo del feedback */
+        .feedback {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #f1c40f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nivel Difícil</h1>
+    <a href="index.html">Volver al Menú</a>
+
+    <div id="musicButton" onclick="toggleMusic()">&#9658;</div> <!-- Icono de Play -->
+
+    <div class="game-container">
+        <div class="letter" id="letter">A</div>
+        <input type="text" id="morseInput" placeholder="Escribe el código Morse aquí">
+        <button onclick="playSound()">Reproducir Sonido</button>
+        <button onclick="checkAnswer()">Comprobar</button>
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script>
+        let isMusicPlaying = false;
+        let music = new Audio('Dificil.mp3');
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                music.pause();
+                document.getElementById('musicButton').innerHTML = '&#9658;'; // Icono de Play
+            } else {
+                music.play();
+                document.getElementById('musicButton').innerHTML = '&#10074;&#10074;'; // Icono de Pausa
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        const morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 
+            'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
+            'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
+            'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+            'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--',
+            'Z': '--..'
+        };
+
+        let attempts = 0;
+
+        function playSound() {
+            const letter = document.getElementById('letter').innerText;
+            const audio = new Audio(`sounds/${letter.toLowerCase()}.mp3`);
+            audio.play();
+        }
+
+        function nextLetter() {
+            const letters = Object.keys(morseCode);
+            const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+            document.getElementById('letter').innerText = randomLetter;
+            document.getElementById('morseInput').value = '';
+            document.getElementById('feedback').innerText = '';
+
+            playSound();
+        }
+
+        function checkAnswer() {
+            const letter = document.getElementById('letter').innerText;
+            const userInput = document.getElementById('morseInput').value.trim();
+            const correctAnswer = morseCode[letter];
+
+            if (userInput === correctAnswer) {
+                document.getElementById('feedback').innerText = '¡Correcto!';
+                attempts = 0;
+                alert("¡Felicidades! Adivinaste correctamente.");
+                nextLetter();
+            } else {
+                attempts++;
+                document.getElementById('feedback').innerText = `Incorrecto. Intentos fallidos: ${attempts}`;
+                
+                if (attempts >= 3) {
+                    alert("Has cometido 3 errores. Intenta de nuevo.");
+                    attempts = 0;
+                }
+            }
+        }
+
+        window.onload = function() {
+            playSound();
+        };
+    </script>
+</body>
+</html>

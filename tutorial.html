@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial - Aprender Código Morse</title>
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3AH3CXV03u7ywNsJSllqGl7Zf_2KgFWiEQA&s" type="image/x-icon">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1a1a1d;
+            color: #fff;
+            background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/double-bubble-dark.png');
+            background-size: cover;
+            animation: fadeIn 1s forwards;
+        }
+        
+        .tutorial-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            text-align: left;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #f1c40f;
+            text-shadow: 2px 2px 8px #000;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px #000;
+        }
+
+        p, ul {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #fff;
+        }
+
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 30px;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorial-container">
+        <h1>Tutorial - Aprender Código Morse</h1>
+        <p>Bienvenido al juego de aprendizaje de código Morse. Aquí te explicamos cómo jugar:</p>
+        
+        <h2>Reglas del Juego:</h2>
+        <ul>
+            <li>Se te mostrará una letra al azar.</li>
+            <li>Debes escribir el código Morse correspondiente a esa letra en el campo de texto.</li>
+            <li>Haz clic en el botón "Comprobar" para verificar tu respuesta.</li>
+            <li>Si tu respuesta es correcta, pasarás a la siguiente letra. Si es incorrecta, podrás intentarlo de nuevo.</li>
+        </ul>
+
+        <h2>Consejos:</h2>
+        <p>Consulta la tabla del abecedario en código Morse en la página principal del juego si tienes dudas.</p>
+
+        <h2>Objetivo:</h2>
+        <p>Aprender y practicar el código Morse de manera divertida y sencilla.</p>
+
+        <a href="index.html">Volver al Juego</a>
+    </div>
+</body>
+</html>

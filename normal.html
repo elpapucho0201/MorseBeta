@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivel Normal - Código Morse</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/6540/6540901.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #111;
+            color: white;
+        }
+
+        h1 {
+            color: #ffcc00;
+            font-size: 3rem;
+        }
+
+        .game-container {
+            margin: 20px auto;
+            max-width: 400px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .letter {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+
+        input,
+        button {
+            margin: 10px;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 80%;
+        }
+
+        button {
+            background-color: #ffcc00;
+            color: #111;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e6b800;
+        }
+
+        #musicButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2.5rem;
+            cursor: pointer;
+            color: #ffcc00;
+        }
+
+        a {
+            display: block;
+            margin: 20px 0;
+            color: #ffcc00;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .feedback {
+            font-size: 1.5rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .letter {
+                font-size: 3rem;
+            }
+
+            input,
+            button {
+                font-size: 1rem;
+                padding: 12px;
+            }
+
+            #musicButton {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .game-container {
+                max-width: 90%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .letter {
+                font-size: 2.5rem;
+            }
+
+            input,
+            button {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            #musicButton {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Nivel Normal</h1>
+    <a href="index.html">Volver al Menú</a>
+
+    <div id="musicButton" onclick="toggleMusic()">&#9658;</div> <!-- Icono de Play -->
+
+    <div class="game-container">
+        <div class="letter" id="letter">A</div>
+        <input type="text" id="morseInput" placeholder="Escribe el código Morse aquí">
+        <button onclick="playSound()">Reproducir Sonido</button>
+        <button onclick="vibrate()">Vibrar</button>
+        <button onclick="checkAnswer()">Comprobar</button>
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script>
+        let isMusicPlaying = false;
+        let music = new Audio('normal.mp3');
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                music.pause();
+                document.getElementById('musicButton').innerHTML = '&#9658;'; // Icono de Play
+            } else {
+                music.play();
+                document.getElementById('musicButton').innerHTML = '&#10074;&#10074;'; // Icono de Pausa
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        const morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 
+            // código Morse para otras letras...
+        };
+
+        let attempts = 0;
+
+        function playSound() {
+            const letter = document.getElementById('letter').innerText;
+            const audio = new Audio(`sounds/${letter.toLowerCase()}.mp3`);
+            audio.play();
+        }
+
+        function vibrate() {
+            if (navigator.vibrate) {
+                const letter = document.getElementById('letter').innerText;
+                const vibrationPattern = morseCode[letter].split('').map(char => char === '.' ? 200 : 600);
+                navigator.vibrate(vibrationPattern);
+            }
+        }
+
+        function nextLetter() {
+            const letters = Object.keys(morseCode);
+            const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+            document.getElementById('letter').innerText = randomLetter;
+            document.getElementById('morseInput').value = '';
+            document.getElementById('feedback').innerText = '';
+
+            playSound();
+            vibrate();
+        }
+
+        function checkAnswer() {
+            const letter = document.getElementById('letter').innerText;
+            const userInput = document.getElementById('morseInput').value.trim();
+            const correctAnswer = morseCode[letter];
+
+            if (userInput === correctAnswer) {
+                document.getElementById('feedback').innerText = '¡Correcto!';
+                attempts = 0;
+                alert("¡Felicidades! Adivinaste correctamente.");
+                nextLetter();
+            } else {
+                attempts++;
+                document.getElementById('feedback').innerText = `Incorrecto. Intentos fallidos: ${attempts}`;
+
+                if (attempts >= 3) {
+                    alert("Has cometido 3 errores. Intenta de nuevo.");
+                    attempts = 0;
+                }
+            }
+        }
+
+        window.onload = function () {
+            playSound();
+            vibrate();
+        };
+    </script>
+</body>
+
+</html>
